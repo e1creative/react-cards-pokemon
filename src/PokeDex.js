@@ -1,21 +1,25 @@
-import React, { useState } from "react";
-import { v4 as uuid } from "uuid";
-import axios from "axios";
+import React from "react";
+
 import PokemonSelect from "./PokemonSelect";
 import PokemonCard from "./PokemonCard";
 import "./PokeDex.css";
+
+import { useAxios } from './hooks'
 
 /* Renders a list of pokemon cards.
  * Can also add a new card at random,
  * or from a dropdown of available pokemon. */
 function PokeDex() {
-  const [pokemon, setPokemon] = useState([]);
-  const addPokemon = async name => {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${name}/`
-    );
-    setPokemon(pokemon => [...pokemon, { ...response.data, id: uuid() }]);
-  };
+  const baseUrl = "https://pokeapi.co/api/v2/pokemon/"
+  // JMT: pass our baseUrl to useAxios
+  const [pokemon, addPokemon] = useAxios(baseUrl);
+  // const [pokemon, setPokemon] = useState([]);
+  // const addPokemon = async name => {
+  //   const response = await axios.get(
+  //     `https://pokeapi.co/api/v2/pokemon/${name}/`
+  //   );
+  //   setPokemon(pokemon => [...pokemon, { ...response.data, id: uuid() }]);
+  // };
   return (
     <div className="PokeDex">
       <div className="PokeDex-buttons">
